@@ -1,22 +1,22 @@
 package com.app.testapp.adapter
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.testapp.R
+import com.app.testapp.adapter.MyChildAdapter
 import com.app.testapp.model.datamodel.DataItem
 import kotlinx.android.synthetic.main.item_main.view.*
 import java.util.*
 
 
-/**
- * Created by android on 15/11/18.
- *
- * this class only for used share key list.
- */
 class MyAdapter(
     var context: Context?,
     private var mList:ArrayList<DataItem>?
@@ -31,6 +31,10 @@ class MyAdapter(
         return mList?.size ?: 0
     }
 
+
+
+
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(mList?.get(position))
 
@@ -38,18 +42,30 @@ class MyAdapter(
         if (mList?.get(position) is DataItem) {
             val dataItem = mList?.get(position) as DataItem
             if (dataItem.isSelected) {
-                holder.itemView.imageArrow.setImageResource(R.drawable.arrow)
-                holder?.itemView?.recyclerChild?.visibility=View.VISIBLE
-                holder?.itemView?.viewMain?.visibility=View.VISIBLE
+                holder?.itemView?.constraintBottom?.visibility=View.VISIBLE
+                fade(holder?.itemView?.constraintBottom);
 
             } else {
-                holder.itemView.imageArrow.setImageResource(R.drawable.arrow)
-                holder?.itemView?.recyclerChild?.visibility=View.GONE
-                holder?.itemView?.viewMain?.visibility=View.GONE
+                holder?.itemView?.constraintBottom?.visibility=View.GONE
+                fadeOut(holder?.itemView?.constraintBottom);
 
             }
         }
     }
+
+
+    fun fade(view: View) {
+        val animation1: Animation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        view.startAnimation(animation1)
+    }
+
+    fun fadeOut(view: View) {
+        val animation1: Animation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+        view.startAnimation(animation1)
+    }
+
+
+
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: DataItem?) {
@@ -62,7 +78,8 @@ class MyAdapter(
                 mList?.let {
 
                    it.get(adapterPosition).isSelected= !it.get(adapterPosition).isSelected;
-                    notifyDataSetChanged()
+
+                    notifyItemChanged(adapterPosition)
                 }
             }
 

@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.app.testapp.adapter.MyAdapter
 import com.app.testapp.R
+import com.app.testapp.adapter.MyAdapter
 import com.app.testapp.model.datamodel.ChildData
 import com.app.testapp.model.datamodel.DataItem
 import kotlinx.android.synthetic.main.activity_main.*
